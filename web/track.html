@@ -73,7 +73,7 @@
         function requestTrack() {
             var from = $("#from").datepicker("getDate");
             var to = $("#to").datepicker("getDate");
-            var url = "track.php?subj=me" +
+            var url = "track.php?subj=" + $("#subject").val() +
                     (from != null ? "&from=" + (from/1000) : "") +
                     (to != null ? "&to=" + (to/1000) : "");
 
