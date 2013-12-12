@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="currentLocation">Curent Location</string>
+    <string name="accuracy">Accuracy</string>
+    <string name="speed">Speed</string>
+    <string name="trackedOn">Tracked on</string>
+    <string name="unknown">Unknown</string>
+
+    <string name="gsScriptPathPattern">.*\\.gs</string>
+    <string name="configFileName">config.gs</string>
+</resources>

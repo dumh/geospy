@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/currentLocation"
+            android:textColor="@android:color/white"
+            android:id="@+id/label1" style="@android:style/TextAppearance.DeviceDefault.Medium"/>
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/locationText"
+            android:text="@string/unknown"
+            style="@android:style/TextAppearance.DeviceDefault.Medium"
+            android:textColor="@android:color/darker_gray"/>
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/accuracy"
+            android:id="@+id/label3"
+            android:textColor="@android:color/white" style="@android:style/TextAppearance.DeviceDefault.Medium"/>
+    <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
+              android:id="@+id/accuracyText" style="@android:style/TextAppearance.DeviceDefault.Medium"
+              android:text="@string/unknown"
+              android:textColor="#aaa"/>
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/speed"
+            android:id="@+id/label4"
+            android:textColor="@android:color/white"
+            style="@android:style/TextAppearance.DeviceDefault.Medium"/>
+    <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
+              android:id="@+id/speedText"
+              android:text="@string/unknown"
+              style="@android:style/TextAppearance.DeviceDefault.Medium"
+              android:textColor="#aaa"/>
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/trackedOn"
+            android:id="@+id/label2" android:textColor="@android:color/white"
+            style="@android:style/TextAppearance.DeviceDefault.Medium"/>
+    <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
+              android:id="@+id/trackedOnText"
+              android:text="@string/unknown"
+              style="@android:style/TextAppearance.DeviceDefault.Medium"
+              android:textColor="#aaa"/>
+</LinearLayout>

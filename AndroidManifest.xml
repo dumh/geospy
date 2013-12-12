@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="ru.mk.gs"
+          android:versionCode="2"
+          android:versionName="1.2">
+    <uses-sdk android:minSdkVersion="15" android:targetSdkVersion="15"/>
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+
+    <application android:label="GS"
+                 android:name=".GSApplication"
+                 android:debuggable="true">
+        <service android:name=".GSService"
+                 android:label="GSService">
+        </service>
+        <receiver android:name=".receiver.ScheduleGSReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".activity.MainActivity"
+                  android:label="GS"
+                  android:excludeFromRecents="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".activity.ScriptActivity"
+                  android:label="GS"
+                  android:excludeFromRecents="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="content" android:host="*" android:pathPattern="@string/gsScriptPathPattern"/>
+                <data android:scheme="file" android:host="*" android:pathPattern="@string/gsScriptPathPattern"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="content" android:mimeType="*/*" android:host="*" android:pathPattern="@string/gsScriptPathPattern"/>
+                <data android:scheme="file" android:mimeType="*/*" android:host="*" android:pathPattern="@string/gsScriptPathPattern"/>
+            </intent-filter>
+        </activity>
+
+        <receiver android:name=".receiver.OutgoingCallReceiver" >
+            <intent-filter android:priority="0">
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

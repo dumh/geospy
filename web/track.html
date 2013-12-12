@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Track subject</title>
+
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin:0;
+            padding:0;
+        }
+        .filters {
+            float: left;
+            width: 25%;
+            height: 100%;
+        }
+        .filters span {
+            float: left;
+            width: 50%;
+            text-align: right;
+            margin-right: 10px;
+        }
+        .filters input,select {
+            width: 100px;
+        }
+        .filters input[type=submit] {
+            width: 100px;
+        }
+        #map {
+            float: left;
+            width:75%;
+            height:100%
+        }
+    </style>
+
+
+    <script src="http://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU" type="text/javascript"></script>
+    <script type="text/javascript">
+        ymaps.ready(init);
+
+        var map;
+
+        function init() {
+            // Создаем карту.
+            map = new ymaps.Map("map", {
+                center: [55.72, 37.44],
+                zoom: 10
+            });
+
+            map.controls
+                    .add('zoomControl', { left: 5, top: 5 })
+                    .add('typeSelector')
+                    .add('mapTools', { left: 35, top: 5 });
+            map.behaviors.enable('scrollZoom');
+        }
+
+    </script>
+    <script>
+        $(function() {
+            $(".datepicker").datepicker({ dateFormat: 'dd-mm-yy', defaultDate: new Date() });
+        });
+
+        function init() {
+            $("#from").datepicker("setDate", new Date());
+        }
+
+        function requestTrack() {
+            var from = $("#from").datepicker("getDate");
+            var to = $("#to").datepicker("getDate");
+            var url = "track.php?subj=me" +
+                    (from != null ? "&from=" + (from/1000) : "") +
+                    (to != null ? "&to=" + (to/1000) : "");
+
+            $.getJSON(url, showTrack);
+        }
+
+        function showTrack(track) {
+            cleanMap();
+            createTrack(track);
+        }
+
+        function cleanMap() {
+            map.geoObjects.each(function (geoObject) {
+                map.geoObjects.remove(geoObject);
+            })
+        }
+
+        function createTrack(track) {
+            var points = [];
+            for (var i = 0; i < track.length; i++) {
+                var latitude = parseFloat(track[i]["latitude"]);
+                var longitude = parseFloat(track[i]["longitude"]);
+                var pointDate = new Date(track[i]["time"] * 1000).toString();
+                points[i] = [ latitude, longitude];
+
+                var label = new ymaps.GeoObject({
+                    geometry: {
+                        type: "Point",
+                        coordinates: points[i]
+                    },
+                    properties: {
+                        iconContent: i+1,
+                        balloonContent: pointDate + "\nProvider: " + track[i]["provider"] +
+                                " (+/- " + track[i]["accuracy"] + " m)\n" +
+                                "Speed: " + track[i]["speed"]*60*60/1000 + " km/h"
+                    }
+                }, {
+                    preset: 'twirl#violetIcon',
+                    draggable: false
+                });
+                map.geoObjects.add(label);
+            }
+            var line = new ymaps.Polyline(
+                points
+            , {
+                balloonContent: ""
+            }, {
+                balloonHasCloseButton:false,
+                strokeColor: "#0000FF",
+                strokeWidth: 4,
+                strokeOpacity: 0.5
+            });
+            map.geoObjects.add(line);
+        }
+    </script>
+</head>
+
+<body onload="init()">
+    <div class="filters">
+        <span>Subject:</span><select id="subject">
+            <option value="me">me</option>
+            <option value="emu">wife</option>
+            <option value="emu">emu</option>
+        </select><br/>
+        <span>From:</span><input type="text" id="from" class="datepicker"><br/>
+        <span>To:</span><input type="text" id="to" class="datepicker"><br/>
+        <div style="text-align: center"><input type="submit" value="Track" onclick="requestTrack()"></div>
+    </div>
+    <div id="map"></div>
+</body>
+
+</html>
